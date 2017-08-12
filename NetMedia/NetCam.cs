@@ -12,9 +12,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace IPVideoCall
+namespace IPVideoCall.NetMedia
 {
-    class NetCam
+    class NetCam : NetMedia
     {
         private VideoCapture _capture;
         private Mat matImg;
@@ -30,7 +30,7 @@ namespace IPVideoCall
         {
             isStopped = true;
         }
-        public void Start()
+        public override void Start()
         {
             Console.WriteLine("Started NetCam Server");
             matImg = new Mat();
@@ -44,7 +44,7 @@ namespace IPVideoCall
             imageStream.Play();
         }
 
-        public TcpClient Connect(String ip, int port)
+        public override TcpClient Connect(String ip, int port)
         {
             currentCamClient = new TcpClient(ip, port);
             camNS = currentCamClient.GetStream();
@@ -62,7 +62,7 @@ namespace IPVideoCall
             return currentCamClient;
         }
 
-        public bool IsStopped { get { return isStopped; } }
+        public override bool IsStopped { get { return isStopped; } }
         public void OpenCamera(int camSourceIndex)
         {
             if (!isStopped)
@@ -224,7 +224,7 @@ namespace IPVideoCall
                 return mStream.ToArray();
             }
         }
-        public void Stop()
+        public override void Stop()
         {
             if (!isStopped)
             {

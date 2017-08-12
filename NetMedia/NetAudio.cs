@@ -10,9 +10,9 @@ using NAudio.CoreAudioApi;
 using System.Windows.Forms;
 using System.Threading;
 
-namespace IPVideoCall
+namespace IPVideoCall.NetMedia
 {
-    class NetAudio
+    class NetAudio : NetMedia
     {
         private WaveIn waveIn;
         private WaveOut waveOut;
@@ -32,7 +32,7 @@ namespace IPVideoCall
             isStopped = true;
         }
 
-        public void Start()
+        public override void Start()
         {
             isStopped = false;
 
@@ -53,7 +53,7 @@ namespace IPVideoCall
             Console.WriteLine("Started NetAudio Server");
         }
 
-        public TcpClient Connect(String ip, int port)
+        public override TcpClient Connect(String ip, int port)
         {
             audioCurrentClient = new TcpClient(ip, port);
             audioCurrentNS = audioCurrentClient.GetStream();
@@ -75,7 +75,7 @@ namespace IPVideoCall
             return audioCurrentClient;
         }
 
-        public bool IsStopped { get { return isStopped; } }
+        public override bool IsStopped { get { return isStopped; } }
 
 
         private void doAudioListener()
@@ -198,7 +198,7 @@ namespace IPVideoCall
             }
         }
 
-        public void Stop()
+        public override void Stop()
         {
             if (!isStopped)
             {
